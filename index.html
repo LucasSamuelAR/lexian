@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEXIAN - Triagem</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="h-screen h-dvh flex flex-col overflow-hidden antialiased">
+
+    <!-- CABEÇALHO -->
+    <header class="h-14 shrink-0 border-b border-brand-border flex items-center px-4 bg-brand-dark/80 backdrop-blur">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-brand-emerald flex items-center justify-center text-brand-dark font-bold text-xl shadow-lg shadow-brand-emerald/20">
+                <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide text-white leading-tight">LEXIAN</h1>
+                <p class="text-[11px] text-gray-400 leading-tight">Triagem Jurídica</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- AVISO LEGAL FIXO (fora da área que rola) -->
+    <div class="shrink-0 px-4 pt-3">
+        <div class="max-w-3xl mx-auto bg-brand-card border border-brand-emerald/30 rounded-xl p-3 shadow-md">
+            <div class="flex items-start gap-3">
+                <div class="w-7 h-7 rounded-lg bg-brand-emerald/10 border border-brand-emerald/30 flex items-center justify-center text-brand-emerald shrink-0">
+                    <i class="fa-solid fa-shield-halved text-xs"></i>
+                </div>
+                <p class="text-xs leading-relaxed text-gray-300">Este é um assistente virtual automatizado para triagem de fatos. Ele não fornece consultoria jurídica. Suas respostas serão analisadas por advogados humanos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁREA DE MENSAGENS (rola) -->
+    <main id="chatScroll" class="flex-1 min-h-0 overflow-y-auto px-4 py-4">
+        <div class="max-w-3xl mx-auto space-y-4">
+            <div id="chatMessages" class="space-y-4"></div>
+
+            <!-- CARREGAMENTO -->
+            <div id="aiLoading" class="hidden flex items-center gap-3 p-3 bg-brand-card/60 border border-brand-border rounded-xl animate-emerald-pulse">
+                <div class="w-8 h-8 rounded-lg bg-brand-emerald/20 flex items-center justify-center text-brand-emerald">
+                    <i class="fa-solid fa-brain animate-spin"></i>
+                </div>
+                <div class="text-xs text-gray-300">
+                    <p class="font-semibold text-white">A Lexian está organizando as informações...</p>
+                    <p class="text-gray-400">Só um instante.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CAMPO DE ENTRADA -->
+    <div class="shrink-0 px-4 pb-4 pt-2 bg-brand-dark">
+        <div class="max-w-3xl mx-auto">
+            <form id="triageForm" class="relative bg-brand-card border border-brand-border focus-within:border-brand-emerald rounded-2xl shadow-2xl transition-all">
+                <textarea
+                    id="caseInput"
+                    rows="2"
+                    placeholder="Digite aqui..."
+                    class="w-full bg-transparent text-sm text-white placeholder-gray-500 p-4 pr-28 focus:outline-none resize-none disabled:opacity-50"
+                ></textarea>
+                <div class="absolute right-3 bottom-3">
+                    <button
+                        type="submit"
+                        id="submitBtn"
+                        class="bg-brand-emerald hover:bg-brand-emeraldHover disabled:opacity-50 disabled:cursor-not-allowed text-brand-dark font-bold py-2 px-4 rounded-xl transition flex items-center gap-2 text-xs shadow-md shadow-brand-emerald/20"
+                    >
+                        <span>Enviar</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+            <button id="newBtn" type="button" class="hidden w-full mt-3 items-center justify-center gap-2 bg-brand-emerald hover:bg-brand-emeraldHover text-brand-dark font-semibold py-2.5 px-4 rounded-xl transition shadow-md shadow-brand-emerald/10 text-sm">
+                <i class="fa-solid fa-plus"></i>
+                <span>Nova triagem</span>
+            </button>
+            <p class="text-[11px] text-gray-500 mt-2 px-2"><strong>Enter</strong> envia • <strong>Shift+Enter</strong> quebra linha</p>
+        </div>
+    </div>
+
+    <script src="src/common.js"></script>
+    <script src="src/api.js"></script>
+    <script src="src/scripts/clientes.js"></script>
+</body>
+</html>

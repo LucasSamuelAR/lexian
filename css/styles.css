@@ -1,0 +1,28 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #111827;
+    color: #F3F4F6;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #111827;
+}
+::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #10B981;
+}
+/* Pulse Animation for Loader */
+@keyframes pulse-emerald {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+}
+.animate-emerald-pulse {
+    animation: pulse-emerald 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

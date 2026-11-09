@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEXIAN - Área do Projeto</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen antialiased">
+
+    <!-- CABEÇALHO -->
+    <header class="border-b border-brand-border flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-brand-dark/80 backdrop-blur sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-brand-emerald flex items-center justify-center text-brand-dark font-bold text-xl shadow-lg shadow-brand-emerald/20">
+                <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide text-white leading-tight">LEXIAN</h1>
+                <p class="text-[11px] text-gray-400 leading-tight">Área do Projeto</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="advogado.html" class="text-xs bg-brand-card hover:bg-brand-border border border-brand-border text-gray-300 hover:text-white px-3 py-1.5 rounded-lg transition font-medium">Painel do advogado</a>
+            <a href="index.html" class="text-xs bg-brand-card hover:bg-brand-border border border-brand-border text-brand-emerald hover:text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Voltar ao site do cliente</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-4 md:p-6 space-y-10">
+
+        <!-- CASOS FICTÍCIOS -->
+        <section class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <p class="text-sm text-gray-400">Relatos de exemplo para usar nos testes (trabalhista, consumidor e família).</p>
+                <button id="exemploBtn" type="button" class="text-xs bg-brand-card hover:bg-brand-border border border-brand-border text-brand-emerald hover:text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>Carregar caso fictício</span>
+                </button>
+            </div>
+            <div id="exemplos" class="hidden space-y-3"></div>
+        </section>
+
+        <!-- TESTES COM 3 USUÁRIOS -->
+        <section class="space-y-3">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-vial-circle-check text-brand-emerald"></i>
+                Testes com 3 usuários
+            </h2>
+            <p class="text-sm text-gray-400">Modelo vazio. Preencha com os resultados reais dos testes. Os campos ficam salvos neste navegador.</p>
+            <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-lg">
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[760px] text-left text-xs text-gray-300">
+                        <thead id="tabelaCabecalho" class="bg-brand-dark/80 text-gray-400 uppercase text-[10px] tracking-wider"></thead>
+                        <tbody id="tabelaCorpo" class="divide-y divide-brand-border"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENGENHARIA DE PROMPTS -->
+        <section class="space-y-3">
+            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-code-branch text-brand-emerald"></i>
+                Engenharia de prompts
+            </h2>
+            <p class="text-sm text-gray-400">Modelo vazio para registrar versão, texto, caso testado, resultado e ajuste feito.</p>
+            <div id="blocosPrompts" class="space-y-4"></div>
+        </section>
+
+    </main>
+
+    <script src="src/common.js"></script>
+    <script src="src/scripts/projeto.js"></script>
+</body>
+</html>

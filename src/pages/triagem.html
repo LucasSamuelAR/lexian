@@ -1,0 +1,347 @@
+    <!-- SIDEBAR RETRÁTIL (ESTILO GEMINI) -->
+    <aside id="sidebar" class="w-72 bg-brand-card border-r border-brand-border flex flex-col justify-between transition-all duration-300 z-30 shrink-0">
+        <!-- Top Sidebar Content -->
+        <div class="flex flex-col h-full overflow-hidden">
+            <!-- Header Sidebar / Logo -->
+            <div class="p-4 flex items-center justify-between border-b border-brand-border">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-brand-emerald flex items-center justify-center text-brand-dark font-bold text-xl shadow-lg shadow-brand-emerald/20">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg tracking-wide text-white flex items-center gap-1.5">
+                            LEXIAN <span class="text-xs font-semibold px-2 py-0.5 rounded bg-brand-emerald/20 text-brand-emerald border border-brand-emerald/30">AI</span>
+                        </h1>
+                        <p class="text-[11px] text-gray-400">Triagem Jurídica Inteligente</p>
+                    </div>
+                </div>
+                <button id="toggleSidebarBtn" title="Recolher Menu" class="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-border/50 transition">
+                    <i class="fa-solid fa-sidebar text-base"></i>
+                </button>
+            </div>
+
+            <!-- Botão Novo Atendimento -->
+            <div class="p-3">
+                <button onclick="startNewChat()" class="w-full flex items-center justify-center gap-2 bg-brand-emerald hover:bg-brand-emeraldHover text-brand-dark font-semibold py-2.5 px-4 rounded-xl transition shadow-md shadow-brand-emerald/10 text-sm">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Nova Triagem</span>
+                </button>
+            </div>
+
+            <!-- Navegação Secundária (Abas do Sistema) -->
+            <div class="px-3 py-1 space-y-1">
+                <button onclick="switchTab('chat')" id="tabBtn-chat" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/30">
+                    <i class="fa-solid fa-comments w-5 text-center"></i>
+                    <span>Chat de Triagem</span>
+                </button>
+                <button onclick="switchTab('tests')" id="tabBtn-tests" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition text-gray-300 hover:bg-brand-border/40 hover:text-white">
+                    <i class="fa-solid fa-vial-circle-check w-5 text-center"></i>
+                    <span>Testes (3 Usuários)</span>
+                </button>
+                <button onclick="switchTab('prompts')" id="tabBtn-prompts" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition text-gray-300 hover:bg-brand-border/40 hover:text-white">
+                    <i class="fa-solid fa-code-branch w-5 text-center"></i>
+                    <span>Engenharia de Prompts</span>
+                </button>
+            </div>
+
+            <!-- Divisor -->
+            <div class="mx-3 my-2 border-t border-brand-border/60"></div>
+
+            <!-- Lista de Histórico (LocalStorage) -->
+            <div class="flex-1 overflow-y-auto px-3 py-1">
+                <div class="flex items-center justify-between text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-1">
+                    <span>Histórico Salvo</span>
+                    <button onclick="clearHistory()" title="Limpar Histórico" class="text-gray-500 hover:text-red-400 transition text-[11px]">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div id="historyList" class="space-y-1 text-sm">
+                    <!-- Item de histórico inserido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé Sidebar (Perfil & Info) -->
+        <div class="p-3 border-t border-brand-border bg-brand-dark/40">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center text-xs font-bold text-brand-emerald border border-brand-emerald/40">
+                    PIT
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-medium text-white truncate">Projeto Integrador</p>
+                    <p class="text-[10px] text-gray-400 truncate">SaaS LegalTech • 2026</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DA APLICAÇÃO (CONTEÚDO EXPANDIDO) -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-brand-dark relative">
+
+        <!-- BARRA SUPERIOR (HEADER MOBILE/MINIMAL) -->
+        <header class="h-14 border-b border-brand-border flex items-center justify-between px-4 bg-brand-dark/80 backdrop-blur z-20 shrink-0">
+            <div class="flex items-center gap-3">
+                <button id="openSidebarMobileBtn" class="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-border/50">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <span id="currentTabTitle" class="text-sm font-semibold text-white tracking-wide flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-brand-emerald"></i>
+                    <span>Assistente Virtual de Triagem Jurídica</span>
+                </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="loadExampleCase()" class="text-xs bg-brand-card hover:bg-brand-border border border-brand-border text-brand-emerald hover:text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span class="hidden sm:inline">Carregar Caso Fictício</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO PRINCIPAL (MUDANÇA DE ABAS) -->
+        <div class="flex-1 overflow-y-auto relative p-4 md:p-6" id="mainScrollContainer">
+            
+            <!-- VIEW 1: CHAT DE TRIAGEM (GEMINI STYLE - CENTRO EXPANDIDO) -->
+            <div id="view-chat" class="max-w-4xl mx-auto flex flex-col h-full min-h-[500px] justify-between pb-24">
+                
+                <!-- AVISO LEGAL FIXO (REQUISITO OBRIGATÓRIO) -->
+                <div class="bg-brand-card border border-brand-emerald/30 rounded-xl p-4 mb-6 shadow-md relative overflow-hidden shrink-0">
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-brand-emerald/5 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-8 h-8 rounded-lg bg-brand-emerald/10 border border-brand-emerald/30 flex items-center justify-center text-brand-emerald shrink-0 mt-0.5">
+                            <i class="fa-solid fa-shield-halved text-sm"></i>
+                        </div>
+                        <div class="text-xs leading-relaxed text-gray-300">
+                            <span class="font-bold text-brand-lightGreen block mb-0.5">AVISO IMPORTANTE & LIMITES DA IA:</span>
+                            Este é um assistente virtual automatizado para triagem de fatos. Ele não fornece consultoria jurídica nem elabora pareceres. Suas respostas serão analisadas e validadas por advogados humanos habilitados.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ÁREA DE DIÁLOGO / MENSAGENS -->
+                <div id="chatMessages" class="space-y-6 flex-1 mb-6">
+                    
+                    <!-- Mensagem Inicial de Boas-Vindas da IA -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-9 h-9 rounded-xl bg-brand-emerald/20 border border-brand-emerald/40 flex items-center justify-center text-brand-emerald shrink-0 shadow-sm">
+                            <i class="fa-solid fa-robot text-sm"></i>
+                        </div>
+                        <div class="flex-1 bg-brand-card border border-brand-border rounded-2xl p-5 shadow-sm space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-white text-sm">LEXIAN Assistente</span>
+                                <span class="text-[11px] text-gray-500">Sistema Online</span>
+                            </div>
+                            <p class="text-sm text-gray-300 leading-relaxed">
+                                Olá! Sou o assistente de triagem jurídica da <strong class="text-white">LEXIAN</strong>. Estou pronto para ajudar a organizar os fatos do seu caso em um relatório estruturado para advogados.
+                            </p>
+                            <p class="text-sm text-gray-300 leading-relaxed">
+                                Digite ou cole o relato detalhado no campo abaixo. Se preferir, clique em <strong class="text-brand-emerald cursor-pointer" onclick="loadExampleCase()">"Carregar Caso Fictício"</strong> no topo da tela para realizar um teste rápido.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mensagens e Cards da Ficha de Triagem serão inseridos dinamicamente aqui -->
+                </div>
+
+                <!-- CARREGAMENTO SIMULADO (SPINNER/PULSE) -->
+                <div id="aiLoading" class="hidden mb-6 flex items-center gap-3 p-4 bg-brand-card/60 border border-brand-border rounded-xl animate-emerald-pulse">
+                    <div class="w-8 h-8 rounded-lg bg-brand-emerald/20 flex items-center justify-center text-brand-emerald">
+                        <i class="fa-solid fa-brain animate-spin"></i>
+                    </div>
+                    <div class="text-xs text-gray-300">
+                        <p class="font-semibold text-white">Analisando relato com Inteligência Artificial...</p>
+                        <p class="text-gray-400">Classificando área do direito, sintetizando fatos e identificando lacunas.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- VIEW 2: TESTES COM 3 USUÁRIOS REAIS (REQUISITO DO ROTEIRO) -->
+            <div id="view-tests" class="hidden max-w-5xl mx-auto space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-vial-circle-check text-brand-emerald"></i>
+                        Validação Prática com 3 Usuários Reais
+                    </h2>
+                    <p class="text-sm text-gray-400">Resultados coletados durante os testes de validação do protótipo com casos fictícios.</p>
+                </div>
+
+                <!-- Cards dos 3 Usuários -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Usuário 1 -->
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between border-b border-brand-border pb-2">
+                            <span class="font-bold text-white text-sm">Usuário 1 (Advogado)</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-emerald/20 text-brand-emerald">Trabalhista</span>
+                        </div>
+                        <p class="text-xs text-gray-300"><strong>Cenário:</strong> Demissão sem pagamento de horas extras.</p>
+                        <div class="text-xs text-brand-lightGreen bg-brand-darkGreenBg/30 p-2.5 rounded border border-brand-emerald/20">
+                            "A IA sintetizou em 1 minuto o que eu levaria 15 minutos perguntando no primeiro atendimento."
+                        </div>
+                    </div>
+
+                    <!-- Usuário 2 -->
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between border-b border-brand-border pb-2">
+                            <span class="font-bold text-white text-sm">Usuário 2 (Estagiário)</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400">Consumidor</span>
+                        </div>
+                        <p class="text-xs text-gray-300"><strong>Cenário:</strong> Aparelho com defeito e ausência de assistência.</p>
+                        <div class="text-xs text-brand-lightGreen bg-brand-darkGreenBg/30 p-2.5 rounded border border-brand-emerald/20">
+                            "As perguntas complementares geradas apontaram exatamente a nota fiscal que faltava pedir."
+                        </div>
+                    </div>
+
+                    <!-- Usuário 3 -->
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between border-b border-brand-border pb-2">
+                            <span class="font-bold text-white text-sm">Usuário 3 (Cliente)</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300">Direito Civil</span>
+                        </div>
+                        <p class="text-xs text-gray-300"><strong>Cenário:</strong> Notificação de despejo imobiliário.</p>
+                        <div class="text-xs text-brand-lightGreen bg-brand-darkGreenBg/30 p-2.5 rounded border border-brand-emerald/20">
+                            "Interface muito fácil de usar. Escrevi do meu jeito e a resposta ficou super organizada."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela Consolidada de Métricas -->
+                <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-lg">
+                    <div class="p-4 border-b border-brand-border bg-brand-dark/50">
+                        <h3 class="font-bold text-white text-sm">Tabela Consolidada de Métricas do Experimento</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-gray-300">
+                            <thead class="bg-brand-dark/80 text-gray-400 uppercase text-[10px] tracking-wider">
+                                <tr>
+                                    <th class="p-3">Métrica Avaliada</th>
+                                    <th class="p-3">Usuário 1 (Advogado)</th>
+                                    <th class="p-3">Usuário 2 (Estagiário)</th>
+                                    <th class="p-3">Usuário 3 (Cliente)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-brand-border">
+                                <tr class="hover:bg-brand-border/20">
+                                    <td class="p-3 font-semibold text-white">Tempo de Triagem</td>
+                                    <td class="p-3">1 min 15 seg</td>
+                                    <td class="p-3">1 min 40 seg</td>
+                                    <td class="p-3">2 min 05 seg</td>
+                                </tr>
+                                <tr class="hover:bg-brand-border/20">
+                                    <td class="p-3 font-semibold text-white">Clareza do Resumo</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">Excelente (5/5)</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">Excelente (5/5)</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">Boa (4/5)</td>
+                                </tr>
+                                <tr class="hover:bg-brand-border/20">
+                                    <td class="p-3 font-semibold text-white">Acurácia da Área IA</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">100% Correta</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">100% Correta</td>
+                                    <td class="p-3 text-brand-emerald font-semibold">100% Correta</td>
+                                </tr>
+                                <tr class="hover:bg-brand-border/20">
+                                    <td class="p-3 font-semibold text-white">Utilidade da Ficha</td>
+                                    <td class="p-3">Muito Alta</td>
+                                    <td class="p-3">Muito Alta</td>
+                                    <td class="p-3">Alta</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: ENGENHARIA DE PROMPTS (DOCUMENTAÇÃO DAS VERSÕES) -->
+            <div id="view-prompts" class="hidden max-w-5xl mx-auto space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-code-branch text-brand-emerald"></i>
+                        Relatório de Engenharia de Prompts (Evolução Iterativa)
+                    </h2>
+                    <p class="text-sm text-gray-400">Documentação do refinamento dos prompts para evitar alucinações e garantir saída estruturada.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Prompt v1.0 -->
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Prompt Versão 1.0 (Inicial - Genérico)</span>
+                            <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-0.5 rounded">Descartado</span>
+                        </div>
+                        <div class="bg-brand-dark p-3 rounded font-mono text-xs text-gray-300 border border-brand-border">
+                            "Resuma este relato jurídico enviado pelo cliente e diga qual é a área do direito envolvida."
+                        </div>
+                        <p class="text-xs text-gray-400"><strong>Diagnóstico:</strong> Respostas muito genéricas, texto em bloco sem tópicos e omissão de documentos faltantes.</p>
+                    </div>
+
+                    <!-- Prompt v2.0 -->
+                    <div class="bg-brand-card border border-brand-border rounded-xl p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider">Prompt Versão 2.0 (Intermediário - Estruturado)</span>
+                            <span class="text-[10px] bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded">Melhorado</span>
+                        </div>
+                        <div class="bg-brand-dark p-3 rounded font-mono text-xs text-gray-300 border border-brand-border">
+                            "Analise o relato. Destaque: 1. Área do Direito, 2. Fatos principais, 3. Pessoas envolvidas e 4. Datas mencionadas."
+                        </div>
+                        <p class="text-xs text-gray-400"><strong>Diagnóstico:</strong> Organizou em tópicos, mas ainda não formulava perguntas complementares para o advogado.</p>
+                    </div>
+
+                    <!-- Prompt v3.0 (OFICIAL) -->
+                    <div class="bg-brand-card border-2 border-brand-emerald rounded-xl p-5 space-y-3 shadow-lg shadow-brand-emerald/10">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-brand-emerald uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-check-circle"></i> Prompt Versão 3.0 (Oficial da LEXIAN)
+                            </span>
+                            <span class="text-[10px] bg-brand-emerald text-brand-dark font-bold px-2.5 py-0.5 rounded">Em Uso no Sistema</span>
+                        </div>
+                        <div class="bg-brand-dark p-4 rounded-lg font-mono text-xs text-brand-lightGreen border border-brand-emerald/40 leading-relaxed">
+                            "Você é a LEXIAN, um assistente virtual automatizado de triagem jurídica.<br><br>
+                            REGRAS RÍGIDAS:<br>
+                            1. Utilize EXCLUSIVAMENTE os fatos relatados. NÃO invente informações.<br>
+                            2. A classificação da área jurídica é estritamente preliminar e informativa.<br><br>
+                            SAÍDA ESPERADA:<br>
+                            - Classificação da Área do Direito (Ex: Trabalhista, Consumidor, Civil).<br>
+                            - Resumo Estruturado (Fatos, Partes Envolvidas, Datas/Cronologia).<br>
+                            - Lacunas e Informações Faltantes.<br>
+                            - 3 Perguntas Complementares para o atendimento humano.<br>
+                            - Checklist de Documentos Relevantes Sugeridos."
+                        </div>
+                        <p class="text-xs text-gray-300"><strong>Resultado:</strong> Ficha padronizada perfeita, sem alucinações e totalmente focada em otimizar o tempo do advogado.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CAMPO DE ENTRADA FIXO NA PARTE INFERIOR (ESTILO GEMINI) -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-brand-dark via-brand-dark/95 to-transparent z-20">
+            <div class="max-w-4xl mx-auto">
+                <form id="triageForm" onsubmit="handleFormSubmit(event)" class="relative bg-brand-card border border-brand-border focus-within:border-brand-emerald rounded-2xl shadow-2xl transition-all">
+                    
+                    <textarea 
+                        id="caseInput" 
+                        rows="3" 
+                        placeholder="Descreva a situação jurídica aqui (ex: fui demitido sem justa causa, comprei um produto com defeito e não resolveram...)"
+                        class="w-full bg-transparent text-sm text-white placeholder-gray-500 p-4 pr-28 focus:outline-none resize-none"
+                        required
+                    ></textarea>
+
+                    <div class="absolute right-3 bottom-3 flex items-center gap-2">
+                        <button 
+                            type="submit" 
+                            id="submitBtn"
+                            class="bg-brand-emerald hover:bg-brand-emeraldHover text-brand-dark font-bold py-2 px-4 rounded-xl transition flex items-center gap-2 text-xs shadow-md shadow-brand-emerald/20"
+                        >
+                            <span>Analisar</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="flex items-center justify-between text-[11px] text-gray-500 mt-2 px-2">
+                    <span>Pressione <strong>Enter</strong> para enviar relato.</span>
+                    <span class="hidden sm:inline">LEXIAN AI • SaaS LegalTech</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
