@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEXIAN - Perguntas frequentes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="css/tailwind-config.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .faq-seta { transform: rotate(180deg); }
+        .faq-seta { transition: transform 0.2s; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-200 antialiased min-h-screen">
+
+    <div class="max-w-3xl mx-auto px-4 py-6">
+
+        <!-- Link de volta: só aparece quando a página é aberta sozinha (fora do painel do chat) -->
+        <a id="voltarChat" href="index.html" class="hidden items-center gap-2 text-xs text-brand-emerald hover:text-white transition mb-4">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Voltar ao chat</span>
+        </a>
+
+        <div class="mb-5">
+            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-circle-question text-brand-emerald"></i>
+                Perguntas frequentes
+            </h1>
+            <p class="text-sm text-gray-400 mt-1">Dúvidas sobre o funcionamento do atendimento da LEXIAN.</p>
+        </div>
+
+        <!-- Lista montada pelo script abaixo -->
+        <div id="faqLista" class="space-y-2"></div>
+
+        <p class="text-[11px] text-gray-500 mt-6 leading-relaxed">
+            Este é um protótipo acadêmico. Use apenas casos fictícios.
+        </p>
+    </div>
+
+    <script>
+        // ===== EDITE AQUI: cada item tem uma pergunta (p) e uma resposta (r). Use \n para separar parágrafos. =====
+        const FAQ = [
+            {
+                p: 'O que é a LEXIAN?',
+                r: 'A LEXIAN é uma assistente virtual de triagem. Ela conversa com você, faz perguntas sobre o seu caso e organiza as informações em uma ficha para o advogado do escritório, para que o primeiro atendimento seja mais rápido.'
+            },
+            {
+                p: 'A LEXIAN é advogada? Ela me dá um parecer?',
+                r: 'Não. A LEXIAN é um assistente automatizado, não dá parecer jurídico, não diz se você tem direito a algo e não promete resultado. Ela só organiza as informações. Quem analisa o seu caso é um advogado humano.'
+            },
+            {
+                p: 'Como funciona a conversa?',
+                r: 'Primeiro a LEXIAN pergunta o seu nome e pede que você conte o que aconteceu, com as suas palavras. Depois ela faz perguntas curtas, uma de cada vez, sobre o que ainda falta, como datas, nomes e documentos. Quando tiver informações suficientes, ela encerra e encaminha o seu caso.\nNão existe um número fixo de perguntas: normalmente são de 3 a 8.'
+            },
+            {
+                p: 'Posso perguntar se tenho direito a alguma coisa?',
+                r: 'Pode perguntar, e a dúvida fica registrada na sua triagem. Mas a LEXIAN não responde sobre direitos nem diz o que você deve fazer. Esse é um trabalho do advogado do escritório, que vai analisar o seu caso depois da triagem.'
+            },
+            {
+                p: 'Que dados não devo informar no chat?',
+                r: 'Não informe dados sensíveis, como CPF, RG, senhas, códigos de verificação, dados de cartão ou dados bancários (agência, conta, chave Pix). Se você enviar algo assim, a mensagem é descartada e você será avisado para reenviar o relato sem esses dados.\nA LEXIAN também nunca pede esse tipo de informação. Se o advogado precisar de algum documento, ele vai pedir pelos canais oficiais do escritório.'
+            },
+            {
+                p: 'Que documentos devo ter em mãos?',
+                r: 'Não é preciso enviar nenhum documento no chat. A LEXIAN só pergunta se você possui algo, como contrato, comprovantes de pagamento, notas fiscais, mensagens, protocolos ou comunicados recebidos. Ter essas informações à mão ajuda a responder mais rápido.'
+            },
+            {
+                p: 'Por que a LEXIAN recusou a minha mensagem?',
+                r: 'Este chat é exclusivo para a triagem de casos jurídicos. Mensagens sobre outros assuntos não são respondidas e não entram na sua triagem. Para continuar, é só contar o que aconteceu no seu caso.'
+            },
+            {
+                p: 'Eu vou ver a classificação do meu caso?',
+                r: 'Não. A área do direito e o nível de urgência são avaliações preliminares, usadas apenas pelo advogado. Você não vê a ficha: ao final, recebe uma mensagem de confirmação de que o caso foi encaminhado.'
+            },
+            {
+                p: 'O que acontece depois que a triagem termina?',
+                r: 'As informações são organizadas em uma ficha e encaminhadas ao advogado responsável, que analisa o caso e entra em contato. A classificação feita pela IA é preliminar e sempre revisada por um advogado.'
+            },
+            {
+                p: 'Meu caso é urgente. O que eu faço?',
+                r: 'A LEXIAN não é um serviço de emergência. Se houver risco imediato à sua segurança ou à sua saúde, ligue para o 190 (Polícia Militar) ou para o 192 (SAMU). Em situações de prazo curto, como uma audiência marcada, procure também um advogado ou a Defensoria Pública da sua região.'
+            },
+            {
+                p: 'Minhas informações estão seguras?',
+                r: 'O que você escreve no chat é processado por um serviço de inteligência artificial. Neste protótipo, use apenas casos fictícios e nunca dados reais de ninguém.'
+            }
+        ];
+        // ===== FIM DA LISTA =====
+
+        const lista = document.getElementById('faqLista');
+
+        FAQ.forEach(function (item) {
+            const detalhe = document.createElement('details');
+            detalhe.className = 'bg-brand-card border border-brand-border rounded-xl overflow-hidden';
+
+            const titulo = document.createElement('summary');
+            titulo.className = 'flex items-center justify-between gap-3 p-4 cursor-pointer text-sm font-semibold text-white hover:bg-brand-border/30 transition';
+            const texto = document.createElement('span');
+            texto.textContent = item.p;
+            const seta = document.createElement('i');
+            seta.className = 'fa-solid fa-chevron-down text-xs text-brand-emerald faq-seta shrink-0';
+            titulo.append(texto, seta);
+
+            const corpo = document.createElement('div');
+            corpo.className = 'px-4 pb-4 text-sm text-gray-300 leading-relaxed whitespace-pre-line border-t border-brand-border/60 pt-3';
+            corpo.textContent = item.r;
+
+            detalhe.append(titulo, corpo);
+            lista.appendChild(detalhe);
+        });
+
+        // Dentro do painel do chat, o "voltar" não faz sentido; sozinho, ele aparece
+        if (window.self === window.top) {
+            const voltar = document.getElementById('voltarChat');
+            voltar.classList.remove('hidden');
+            voltar.classList.add('inline-flex');
+        }
+    </script>
+</body>
+</html>

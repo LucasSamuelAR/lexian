@@ -18,7 +18,7 @@
 <body class="h-screen h-dvh flex flex-col overflow-hidden antialiased">
 
     <!-- CABEÇALHO -->
-    <header class="h-14 shrink-0 border-b border-brand-border flex items-center px-4 bg-brand-dark/80 backdrop-blur">
+    <header class="h-14 shrink-0 border-b border-brand-border flex items-center justify-between px-4 bg-brand-dark/80 backdrop-blur">
         <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-brand-emerald flex items-center justify-center text-brand-dark font-bold text-xl shadow-lg shadow-brand-emerald/20">
                 <i class="fa-solid fa-scale-balanced"></i>
@@ -28,16 +28,23 @@
                 <p class="text-[11px] text-gray-400 leading-tight">Triagem Jurídica</p>
             </div>
         </div>
+        <button type="button" data-abrir-faq class="text-xs bg-brand-card hover:bg-brand-border border border-brand-border text-brand-emerald hover:text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>FAQ</span>
+        </button>
     </header>
 
     <!-- AVISO LEGAL FIXO (fora da área que rola) -->
-    <div class="shrink-0 px-4 pt-3">
+    <div id="avisoLegal" class="shrink-0 px-4 pt-3">
         <div class="max-w-3xl mx-auto bg-brand-card border border-brand-emerald/30 rounded-xl p-3 shadow-md">
             <div class="flex items-start gap-3">
                 <div class="w-7 h-7 rounded-lg bg-brand-emerald/10 border border-brand-emerald/30 flex items-center justify-center text-brand-emerald shrink-0">
                     <i class="fa-solid fa-shield-halved text-xs"></i>
                 </div>
                 <p class="text-xs leading-relaxed text-gray-300">Este é um assistente virtual automatizado para triagem de fatos. Ele não fornece consultoria jurídica. Suas respostas serão analisadas por advogados humanos.</p>
+                <button id="avisoFechar" type="button" title="Fechar aviso" aria-label="Fechar aviso" class="shrink-0 -mt-1 -mr-1 text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-border/50 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -89,8 +96,36 @@
         </div>
     </div>
 
+    <!-- PAINEL DO FAQ (carrega o arquivo faq.html; a conversa do chat continua por baixo) -->
+    <div id="faqModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" role="dialog" aria-modal="true" aria-labelledby="faqTitulo">
+        <div class="w-full max-w-2xl h-[85vh] h-[85dvh] bg-brand-dark border border-brand-border rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            <div class="shrink-0 flex items-center justify-between px-4 h-12 border-b border-brand-border bg-brand-card">
+                <span id="faqTitulo" class="text-sm font-semibold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-brand-emerald"></i>
+                    Perguntas frequentes
+                </span>
+                <div class="flex items-center gap-1">
+                    <a href="faq.html" target="_blank" rel="noopener" title="Abrir em outra aba" class="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-border/50 transition">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                    </a>
+                    <button id="faqFechar" type="button" title="Fechar" class="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-border/50 transition">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+                </div>
+            </div>
+            <iframe id="faqFrame" title="Perguntas frequentes" data-src="faq.html" class="flex-1 w-full min-h-0 bg-brand-dark"></iframe>
+        </div>
+    </div>
+
     <script src="src/common.js"></script>
     <script src="src/api.js"></script>
+    <script src="src/scripts/faq.js"></script>
     <script src="src/scripts/clientes.js"></script>
+    <script>
+        // Fecha o aviso legal e libera o espaço para o chat (ele volta ao recarregar a página)
+        document.getElementById('avisoFechar').addEventListener('click', function () {
+            document.getElementById('avisoLegal').remove();
+        });
+    </script>
 </body>
 </html>
