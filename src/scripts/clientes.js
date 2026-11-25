@@ -18,7 +18,7 @@ const MSG_DADO_SENSIVEL =
 
 let etapa = 'nome'; // nome -> conversa -> fim
 let nome = '';
-let historico = []; // { papel: 'cliente' | 'lexian', texto }
+let historico = []; // { papel: 'cliente' | 'lexian', texto, repeticao? }
 let ocupado = false;
 
 function rolarParaOFim() {
@@ -111,7 +111,8 @@ function montarCaso(ficha) {
         relato: doCliente[0] || '',
         pergunta: daLexian.join('\n'),
         resposta: doCliente.slice(1).join('\n'),
-        conversa: historico,
+        // grava só papel e texto: a marca "repeticao" é de uso interno do chat
+        conversa: historico.map((m) => ({ papel: m.papel, texto: m.texto })),
         criadoEm: new Date().toISOString()
     }));
 }
@@ -153,7 +154,8 @@ async function enviar(e) {
             // não devolve o texto ao campo, para o cliente não reenviar o dado sem querer
             adicionarMensagemBot(passo.mensagem || MSG_DADO_SENSIVEL);
         } else if (passo.status === 'pergunta') {
-            historico.push({ papel: 'lexian', texto: passo.mensagem });
+            // "repeticao": a Lexian só repetiu uma pergunta pendente, então não gasta o limite de perguntas
+            historico.push({ papel: 'lexian', texto: passo.mensagem, repeticao: passo.repeticao === true });
             adicionarMensagemBot(passo.mensagem);
         } else if (passo.status === 'completo') {
             const { ficha, enviavel, motivo } = await postar('/api/ficha', { nome: nome, historico: historico });
